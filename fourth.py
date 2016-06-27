@@ -42,10 +42,86 @@
 
 # The following code should work with the classes
 
+class Rocket(object):
+    def __init__(self, typeof, leveloffuel, launches):
+        self.typeof = typeof
+        self.leveloffuel = leveloffuel
+        self.launches = launches
+
+    def launch(self):
+        self.launches += 1
+        if self.typeof == 'falcon1':
+            self.leveloffuel -= 1
+        else:
+            self.leveloffuel -= 9
+
+    def refill(self):
+        usedfuel = 0
+        if self.typeof == 'falcon1':
+            usedfuel = self.leveloffuel
+            self.leveloffuel = 5
+            return usedfuel
+        else:
+            usedfuel = self.leveloffuel
+            self.leveloffuel = 20
+            return usedfuel
+
+    def getStats(self):
+        return 'name:', self.typeof, 'fuel:', self.leveloffuel
+
+
+class Falcon1(Rocket):
+    def __init__(self):
+        self.typeof = 'falcon1'
+        self.maxfuel = 5
+
+class Falcon9(Rocket):
+    def __init__(self):
+        self.typeof = 'falcon9'
+        self.maxfuel = 9
+
+class SpaceX(object):
+    def __init__(self, storedfuel):
+        self.storedfuel = storedfuel
+        self.rockets = []
+
+    def addRocket(self, rocket):
+        self.rockets.append(rocket)
+
+    def refill_all(self):
+        for rocket in self.rockets:
+            if rocket == falcon1:
+                maxfuel = 5
+            else:
+                maxfuel = 20
+            Rocket.rocket.refill(maxfuel)
+
+    def launch_all(self):
+        for rocket in self.rockets:
+            rocket.launch()
+
+    def buy_fuel(self, amount):
+        self.storedfuel += amount
+
+    def getStats(self):
+        return 'rockets:', len(self.rockets), 'fuel:', self.storedfuel
+
+
 
 space_x = SpaceX(100)
 falcon1 = Rocket('falcon1', 0, 0)
 falcon9 = Rocket('falcon9', 0, 0)
+
+# delete
+
+# falcon9.refill()
+# falcon9.launch()
+# print(falcon9.typeof, falcon9.leveloffuel, falcon9.launches)
+# print(falcon9.refill())
+# print(falcon9.typeof, falcon9.leveloffuel, falcon9.launches)
+# print(falcon9.getStats())
+
+# delete
 returned_falcon9 = Rocket('falcon9', 11, 1)
 
 print(returned_falcon9.getStats()) # name: falcon9, fuel: 11
@@ -56,8 +132,8 @@ space_x.addRocket(returned_falcon9)
 
 print(space_x.getStats()) # rockets: 3, fuel: 100, launches: 1
 space_x.refill_all()
-print(space_x.getStats()) # rockets: 3, fuel: 66, launches: 1
-space_x.launch_all()
-print(space_x.getStats()) # rockets: 3, fuel: 66, launches: 4
-space_x.buy_fuel(50)
-print(space_x.getStats()) # rockets: 3, fuel: 116, launches: 4
+# print(space_x.getStats()) # rockets: 3, fuel: 66, launches: 1
+# space_x.launch_all()
+# print(space_x.getStats()) # rockets: 3, fuel: 66, launches: 4
+# space_x.buy_fuel(50)
+# print(space_x.getStats()) # rockets: 3, fuel: 116, launches: 4
